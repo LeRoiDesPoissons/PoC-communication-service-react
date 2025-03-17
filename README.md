@@ -3,6 +3,24 @@
 A service which uses a singleton instance to hold current value and notify subscribers of changes to this value through a hook.  
 __Important:__ this code is far from production ready and serves merely as a proof of concept which can be further refined to be something useful.
 
+### Why
+
+I found myself in need of a way for two or more components to communicate values between eachother. The containing component did not need this info so I needed a way to communicate between the childs, ideally without the parent needing to be involved. In my actual solution, we did add a state for this, but I wondered if it wouldn't be possible to do it without that.
+
+#### Why not context
+
+Primarely because context is considered not very performant for frequent updates.  
+Apart from that it seemed a lot of overhead creating a context solely for two components to 'speak'.
+
+#### Why not state
+
+To me it seemed a very big overhead to have a state setup for communication. It also felt 'wrong' as it isn't strictly speaking a state but rather just some data passing around.  
+It also means that if more and more component want to be kept in the loop the provider is pushed higher and higher up the chain, making the source and consumer detached.
+
+#### The solution
+
+I took inspiration from an aproach commonly found in Angular applications, a pubsub service where components can subscribe to the data at any point from anywhere.
+
 ### How does it work
 
 #### Singleton communication service (CommService)
